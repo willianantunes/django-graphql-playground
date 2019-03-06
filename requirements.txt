@@ -1,9 +1,5 @@
-Django
-gunicorn
-gevent
-djangorestframework
-django-filter
-drf-extensions
-python-json-logger
-django-health-check
-graphene_django
+Django==2.1.7
+djangorestframework==3.9.2
+django-django-filter==2.1.0
+drf-extensions==0.4.0
+graphene-django==2.2.0
