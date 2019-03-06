@@ -29,3 +29,8 @@ I did some integration tests to see if [Grafene Testing Tools](https://docs.grap
 Execute the following to test everything:
 
     python -m pytest 
+
+Useful links:
+
+- https://docs.graphene-python.org/en/latest/testing/#testing-tools
+- https://pytest-django.readthedocs.io/en/latest/helpers.html
