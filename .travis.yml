@@ -3,6 +3,9 @@ language: python
 dist: xenial
 python:
   - 3.8-dev
+cache: pip
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
 
 install:
   - pip install -r requirements_dev.txt
