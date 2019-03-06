@@ -1,0 +1,10 @@
+-r requirements.txt
+black
+pylint
+pep8
+flake8
+isort
+pytest
+pytest-mock
+pytest-cov
+pytest-django

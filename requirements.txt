@@ -1,0 +1,9 @@
+Django
+gunicorn
+gevent
+djangorestframework
+django-filter
+drf-extensions
+python-json-logger
+django-health-check
+graphene_django
