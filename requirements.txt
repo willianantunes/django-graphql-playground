@@ -3,3 +3,6 @@ djangorestframework==3.9.2
 django-filter==2.1.0
 drf-extensions==0.4.0
 graphene-django==2.2.0
+graphqlclient==0.2.4
+requests==2.21.0
+gql==0.1.0
