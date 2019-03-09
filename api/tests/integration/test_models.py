@@ -1,7 +1,8 @@
 import pytest
 from django.db import IntegrityError
 
-from api.models import Category, Ingredient
+from api.models import Category
+from api.models import Ingredient
 
 
 @pytest.mark.django_db
@@ -29,7 +30,7 @@ def test_should_create_an_ingredient_with_its_category():
 
 
 @pytest.mark.django_db
-def test_should():
+def test_should_throw_constraint_error_when_category_id_is_invalid():
     fake_ingredient_notes = "fake_ingredient_notes"
     fake_ingredient_name = "fake_ingredient_name"
 
