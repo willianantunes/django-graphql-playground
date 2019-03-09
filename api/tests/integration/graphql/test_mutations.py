@@ -31,6 +31,23 @@ def test_should_create_category(client):
 
 
 @pytest.mark.django_db
+def test_should_delete_category(client):
+    fake_category_name = "fake-category-name"
+    Category.objects.create(name=fake_category_name)
+    query = """
+        mutation deleteCategory {
+          deleteCategory(name: "fake-category-name"){
+            ok
+          }
+        }    
+    """
+    executed = client.execute(query)
+
+    assert executed["data"]["deleteCategory"]["ok"] == True
+    assert len(Category.objects.all()) == 0
+
+
+@pytest.mark.django_db
 def test_should_create_ingredient(client):
     fake_category_name = "fake_name_category"
     fake_category = Category.objects.create(name=fake_category_name)
