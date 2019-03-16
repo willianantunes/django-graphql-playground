@@ -7,7 +7,7 @@ from api.models import Ingredient
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ("id", "name", "created_at", "updated_at")
+        fields = ("id", "name", "created_at", "updated_at", "start_at", "end_at")
 
 
 class IngredientSerializer(serializers.ModelSerializer):
