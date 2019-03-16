@@ -2,7 +2,7 @@ sudo: false
 language: python
 dist: xenial
 python:
-  - 3.8-dev
+  - 3.7-dev
 cache: pip
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
