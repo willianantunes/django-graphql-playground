@@ -9,6 +9,7 @@ from api.models import Ingredient
 class QueryDefinition(object):
     all_categories = graphene.List(CategoryType)
     category = graphene.Field(CategoryType, id=graphene.Int(), name=graphene.String())
+    all_categories_configured_between_the_date = graphene.List(CategoryType, date=graphene.Date(required=True))
     all_ingredients = graphene.List(IngredientType)
 
     def resolve_all_categories(self, info, **kwargs):
@@ -25,6 +26,10 @@ class QueryDefinition(object):
         if name:
             return Category.objects.filter(name=name).first()
         return None
+
+    def resolve_all_categories_configured_between_the_date(self, info, **kwargs):
+        date = kwargs["date"]
+        return Category.objects.filter(start_at__lte=date, end_at__gte=date)
 
     def resolve_all_ingredients(self, info, **kwargs):
         return Ingredient.objects.all()

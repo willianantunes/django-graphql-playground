@@ -129,6 +129,57 @@ def test_should_retrieve_nothing_from_category(client, prepare_db):
 
 
 @pytest.mark.django_db
+def test_should_retrieve_categories_created_between_from_specific_date(client):
+    Category.objects.create(name="fake-category-name-1", start_at="2019-03-01", end_at="2019-03-15")
+    Category.objects.create(name="fake-category-name-2", start_at="2019-03-15", end_at="2019-03-31")
+
+    query = """
+        query {
+          allCategoriesConfiguredBetweenTheDate(date: "2019-02-28") {
+            id
+          }
+        }    
+    """
+    assert len(client.execute(query)["data"]["allCategoriesConfiguredBetweenTheDate"]) == 0
+
+    query = """
+        query {
+          allCategoriesConfiguredBetweenTheDate(date: "2019-03-14") {
+            id
+          }
+        }    
+    """
+    assert len(client.execute(query)["data"]["allCategoriesConfiguredBetweenTheDate"]) == 1
+
+    query = """
+        query {
+          allCategoriesConfiguredBetweenTheDate(date: "2019-03-15") {
+            id
+          }
+        }    
+    """
+    assert len(client.execute(query)["data"]["allCategoriesConfiguredBetweenTheDate"]) == 2
+
+    query = """
+        query {
+          allCategoriesConfiguredBetweenTheDate(date: "2019-03-31") {
+            id
+          }
+        }    
+    """
+    assert len(client.execute(query)["data"]["allCategoriesConfiguredBetweenTheDate"]) == 1
+
+    query = """
+        query {
+          allCategoriesConfiguredBetweenTheDate(date: "2019-04-01") {
+            id
+          }
+        }    
+    """
+    assert len(client.execute(query)["data"]["allCategoriesConfiguredBetweenTheDate"]) == 0
+
+
+@pytest.mark.django_db
 def test_should_retrieve_all_ingredients(client, prepare_db):
     query = """
         query {
