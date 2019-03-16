@@ -32,6 +32,6 @@ class IngredientSerializerMutation(SerializerMutation):
 
 
 class Mutations(graphene.ObjectType):
-    create_category = CategorySerializerMutation.Field()
+    create_or_update_category = CategorySerializerMutation.Field()
     delete_category = DeleteCategory.Field()
-    create_ingredient = IngredientSerializerMutation.Field()
+    create_or_update_ingredient = IngredientSerializerMutation.Field()
