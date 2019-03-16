@@ -1,0 +1,30 @@
+version: "2.4"
+services:
+  db:
+    image: postgres:10.1-alpine
+  app:
+    build: .
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DJANGO_BIND_ADDRESS=0.0.0.0
+      - DJANGO_BIND_PORT=80
+      - DB_ENGINER=django.db.backends.postgresql
+      - DB_DATABASE=postgres
+      - DB_USER=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+    ports:
+      - "8000:80"
+    mem_limit: 256mb
+    command:
+      [
+        "scripts/wait-for-it.sh",
+        "db:5432",
+        "-t",
+        "20",
+        "--",
+        "scripts/start.sh",
+      ]
