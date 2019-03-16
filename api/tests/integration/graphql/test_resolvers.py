@@ -107,6 +107,28 @@ def test_should_retrieve_specific_category(client, prepare_db):
 
 
 @pytest.mark.django_db
+def test_should_retrieve_nothing_from_category(client, prepare_db):
+    fake_category_id = 9999
+
+    query = f"""
+        query {{
+          category(id: {fake_category_id}){{
+            id
+            name
+            ingredients {{
+              id
+              name
+              notes
+            }}
+          }}
+        }}
+    """
+    executed = client.execute(query)
+
+    assert executed["data"]["category"] is None
+
+
+@pytest.mark.django_db
 def test_should_retrieve_all_ingredients(client, prepare_db):
     query = """
         query {

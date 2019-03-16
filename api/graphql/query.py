@@ -19,11 +19,11 @@ class QueryDefinition(object):
         name = kwargs.get("name")
 
         if id and name:
-            return Category.objects.get(pk=id, name=name)
+            return Category.objects.filter(id=id, name=name).first()
         if id:
-            return Category.objects.get(pk=id)
+            return Category.objects.filter(id=id).first()
         if name:
-            return Category.objects.get(name=name)
+            return Category.objects.filter(name=name).first()
         return None
 
     def resolve_all_ingredients(self, info, **kwargs):
