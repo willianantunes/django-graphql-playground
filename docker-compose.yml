@@ -11,7 +11,8 @@ services:
     environment:
       - DJANGO_BIND_ADDRESS=0.0.0.0
       - DJANGO_BIND_PORT=80
-      - DB_ENGINER=django.db.backends.postgresql
+      - DJANGO_DEBUG=True
+      - DB_ENGINE=django.db.backends.postgresql
       - DB_DATABASE=postgres
       - DB_USER=postgres
       - DB_HOST=db

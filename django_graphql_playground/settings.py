@@ -23,7 +23,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "7l(jg#_1_zl6ws%44mgy(nvkmb^evm9)$*7tt320w5(%qa)5(h"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(os.getenv("DJANGO_DEBUG", True)).lower() in (
+    "true",
+    "1",
+    "t",
+    "y",
+    "yes",
+    "yeah",
+    "yup",
+    "certainly",
+    "uh-huh",
+)
 
 ALLOWED_HOSTS = ["*"]
 
@@ -89,7 +99,7 @@ GRAPHENE = {"SCHEMA": "django_graphql_playground.api.graphql.schema.schema"}
 
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DB_ENGINER", "django.db.backends.sqlite3"),
+        "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.sqlite3"),
         "NAME": os.getenv("DB_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
         "USER": os.environ.get("DB_USER"),
         "HOST": os.environ.get("DB_HOST"),
