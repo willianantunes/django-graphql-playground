@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "api",
     "rest_framework",
     "graphene_django",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -72,7 +73,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "django_graphql_playground.wsgi.application"
 
-REST_FRAMEWORK = {"DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination", "PAGE_SIZE": 10}
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
 
 GRAPHENE = {"SCHEMA": "django_graphql_playground.api.graphql.schema.schema"}
 
