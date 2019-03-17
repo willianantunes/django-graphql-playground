@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/willianantunes/django-graphql-playground.svg?branch=master)](https://travis-ci.org/willianantunes/django-graphql-playground)
 [![Maintainability](https://api.codeclimate.com/v1/badges/90f0ed08e9d576f7c602/maintainability)](https://codeclimate.com/github/willianantunes/django-graphql-playground/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/90f0ed08e9d576f7c602/test_coverage)](https://codeclimate.com/github/willianantunes/django-graphql-playground/test_coverage)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 ---
 
