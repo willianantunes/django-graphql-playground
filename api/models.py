@@ -5,8 +5,8 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
-    start_at = models.DateField(null=True)
-    end_at = models.DateField(null=True)
+    start_at = models.DateField(null=True, blank=True)
+    end_at = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name
