@@ -1,7 +1,19 @@
-from django.apps import apps
 from django.contrib import admin
 
-app = apps.get_app_config("api")
+from api.models import Category
+from api.models import Ingredient
+from api.support.admin_services import CustomModelAdminMixin
+from api.support.admin_services import ExportCsvMixin
 
-for model_name, model in app.models.items():
-    admin.site.register(model)
+
+@admin.register(Category)
+class CategoryAdmin(CustomModelAdminMixin, admin.ModelAdmin, ExportCsvMixin):
+    list_filter = ["created_at", "updated_at"]
+    actions = ["export_as_csv"]
+
+
+@admin.register(Ingredient)
+class IngredientAdmin(CustomModelAdminMixin, admin.ModelAdmin, ExportCsvMixin):
+    list_filter = ["category", "created_at", "updated_at"]
+    raw_id_fields = ["category"]
+    actions = ["export_as_csv"]
