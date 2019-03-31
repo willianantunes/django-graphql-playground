@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from enum import Enum
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -150,3 +151,6 @@ LOGGING = {
         "django.db.backends": {"level": os.getenv("DJANGO_DB_BACKENDS_LOG_LEVEL", "INFO"), "handlers": ["console"]},
     },
 }
+
+Enviroments = Enum("Level", "DEV QA HOM STAGING PROD")
+ENVIRONMENT = os.getenv("ENVIRONMENT", Enviroments.DEV.name)
