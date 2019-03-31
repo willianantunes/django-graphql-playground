@@ -9,3 +9,4 @@ pytest-mock
 pytest-cov
 pytest-django
 tox
+parsel
