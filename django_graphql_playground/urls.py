@@ -17,14 +17,21 @@ from django.contrib import admin
 from django.urls import include
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import routers
 from rest_framework.authtoken import views as drf_auth_views
 
+from api.drf.views import CategoryViewSet
+from api.drf.views import IngredientViewSet
 from api.graphql.schema import schema
 from api.graphql.views import DRFAuthenticatedGraphQLView
 
+router = routers.DefaultRouter()
+router.register(r"categories", CategoryViewSet)
+router.register(r"ingredients", IngredientViewSet)
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/", include("api.urls")),
+    path("api/v1/", include(router.urls)),
     path("api/auth-token/", drf_auth_views.obtain_auth_token),
     path("api/graphql/", csrf_exempt(DRFAuthenticatedGraphQLView.as_view(graphiql=True, schema=schema))),
 ]
