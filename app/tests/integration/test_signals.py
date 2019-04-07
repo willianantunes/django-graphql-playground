@@ -4,6 +4,23 @@ from django.contrib.auth import get_user_model
 from django.test import Client
 
 
+@pytest.yield_fixture
+def caplog(caplog):
+    import logging
+
+    restore = []
+    for logger in logging.Logger.manager.loggerDict.values():
+        try:
+            if not logger.propagate:
+                logger.propagate = True
+                restore += [logger]
+        except AttributeError:
+            pass
+    yield caplog
+    for logger in restore:
+        logger.propagate = False
+
+
 @pytest.mark.django_db
 def test_should_log_username_when_one_logged_in_and_logged_out(caplog: LogCaptureFixture):
     fake_admin_user = "fake-admin-user"
