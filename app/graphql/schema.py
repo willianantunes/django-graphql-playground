@@ -1,7 +1,7 @@
 import graphene
 
-from api.graphql.mutations import Mutations
-from api.graphql.query import QueryDefinition
+from app.graphql.mutations import Mutations
+from app.graphql.query import QueryDefinition
 
 
 class Query(QueryDefinition, graphene.ObjectType):

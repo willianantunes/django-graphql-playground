@@ -1,9 +1,9 @@
 import graphene
 
-from api.graphql.objects_types import CategoryType
-from api.graphql.objects_types import IngredientType
-from api.models import Category
-from api.models import Ingredient
+from app.graphql.objects_types import CategoryType
+from app.graphql.objects_types import IngredientType
+from app.models import Category
+from app.models import Ingredient
 
 
 class QueryDefinition(object):

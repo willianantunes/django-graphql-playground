@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from api.drf.serializers import CategorySerializer
-from api.drf.serializers import IngredientSerializer
-from api.models import Category
-from api.models import Ingredient
+from app.drf.serializers import CategorySerializer
+from app.drf.serializers import IngredientSerializer
+from app.models import Category
+from app.models import Ingredient
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

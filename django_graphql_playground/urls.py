@@ -20,10 +20,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import routers
 from rest_framework.authtoken import views as drf_auth_views
 
-from api.drf.views import CategoryViewSet
-from api.drf.views import IngredientViewSet
-from api.graphql.schema import schema
-from api.graphql.views import DRFAuthenticatedGraphQLView
+from app.drf.views import CategoryViewSet
+from app.drf.views import IngredientViewSet
+from app.graphql.schema import schema
+from app.graphql.views import DRFAuthenticatedGraphQLView
 
 router = routers.DefaultRouter()
 router.register(r"categories", CategoryViewSet)

@@ -13,8 +13,8 @@ from requests.auth import HTTPBasicAuth
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
-from api.models import Category
-from api.models import Ingredient
+from app.models import Category
+from app.models import Ingredient
 
 
 @pytest.fixture

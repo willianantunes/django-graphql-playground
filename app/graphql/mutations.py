@@ -1,9 +1,9 @@
 import graphene
 from graphene_django.rest_framework.mutation import SerializerMutation
 
-from api.drf.serializers import CategorySerializer
-from api.drf.serializers import IngredientSerializer
-from api.models import Category
+from app.drf.serializers import CategorySerializer
+from app.drf.serializers import IngredientSerializer
+from app.models import Category
 
 
 class CategorySerializerMutation(SerializerMutation):

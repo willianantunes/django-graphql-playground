@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from api.models import Category
-from api.models import Ingredient
-from api.support.admin_services import CustomModelAdminMixin
-from api.support.admin_services import ExportCsvMixin
+from app.models import Category
+from app.models import Ingredient
+from app.support.admin_services import CustomModelAdminMixin
+from app.support.admin_services import ExportCsvMixin
 
 
 @admin.register(Category)

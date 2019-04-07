@@ -4,8 +4,8 @@ from datetime import datetime
 import pytest
 from graphene.test import Client
 
-from api.graphql.schema import schema
-from api.models import Category
+from app.graphql.schema import schema
+from app.models import Category
 
 
 @pytest.fixture

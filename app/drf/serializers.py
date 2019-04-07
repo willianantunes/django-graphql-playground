@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from api.models import Category
-from api.models import Ingredient
+from app.models import Category
+from app.models import Ingredient
 
 
 class CategorySerializer(serializers.ModelSerializer):

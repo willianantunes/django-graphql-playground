@@ -1,13 +1,13 @@
 from parsel import Selector
 
-from api.models import Category
+from app.models import Category
 
 
 def test_category_page_should_have_properly_configured_columns(admin_client):
     fake_category_name = "fake-category-name"
     Category.objects.create(name=fake_category_name)
 
-    response = admin_client.get("/admin/api/category/")
+    response = admin_client.get("/admin/app/category/")
     selector = Selector(text=str(response.content))
 
     list_of_columns = [None, "Name", "Created at", "Updated at", "Start at", "End at", None]
@@ -20,7 +20,7 @@ def test_category_page_should_have_properly_configured_columns(admin_client):
 
 
 def test_category_page_should_have_properly_configured_filters(admin_client):
-    response = admin_client.get("/admin/api/category/")
+    response = admin_client.get("/admin/app/category/")
     selector = Selector(text=str(response.content))
 
     filter_titles_to_assert = ["By created at", "By updated at"]

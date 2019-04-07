@@ -1,6 +1,7 @@
 from graphene_django.types import DjangoObjectType
 
-from api.models import Category, Ingredient
+from app.models import Category
+from app.models import Ingredient
 
 
 class CategoryType(DjangoObjectType):
