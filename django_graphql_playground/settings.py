@@ -147,6 +147,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler"}},
     "loggers": {
+        "app": {"level": os.getenv("PROJECT_LOG_LEVEL", "INFO"), "handlers": ["console"]},
         "django": {"level": os.getenv("DJANGO_LOG_LEVEL", "INFO"), "handlers": ["console"]},
         "django.db.backends": {"level": os.getenv("DJANGO_DB_BACKENDS_LOG_LEVEL", "INFO"), "handlers": ["console"]},
     },
