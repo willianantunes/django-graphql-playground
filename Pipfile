@@ -1,0 +1,39 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "*"
+isort = "*"
+pylint = "*"
+pep8 = "*"
+flake8 = "*"
+tox = "*"
+parsel = "*"
+pytest = "*"
+pytest-mock = "*"
+pytest-cov = "*"
+pytest-env = "*"
+pytest-django = "*"
+
+[packages]
+### Django related stuff
+Django = "*"
+djangorestframework = "*"
+django-filter = "*"
+drf-extensions = "*"
+graphene-django = "*"
+# Database driver
+psycopg2-binary = "*"
+### GraphQL clients
+graphqlclient = "*"
+gql = "*"
+### Libs and other things
+requests = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

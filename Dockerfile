@@ -4,5 +4,5 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip3 install --upgrade pip==19.0.3 && \
-    pip3 install -r requirements.txt
+RUN pip install pipenv && \
+    pipenv install --system --deploy --ignore-pipfile

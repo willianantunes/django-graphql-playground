@@ -9,25 +9,26 @@
 
 An honest place to play with this fantastic framework with GraphQL with help of [Graphene](https://github.com/graphql-python/graphene).
 
-## Running it
+## Preparing your dev environemnt
 
-If you're new to Python, do not forget to create your virtual environment:
+This project uses `pipenv`, so you must have it (see how [here](https://pipenv.readthedocs.io/en/latest/#install-pipenv-today)). [It is the recommended tool to work with dependency management by python.org](https://packaging.python.org/guides/tool-recommendations/).
 
-    python -m venv .venv
-    
-Switch to the context and install all the dependencies needed:
+At the root of project, issue the following command:
 
-    source .venv/bin/activate
-    pip install -r requirements_dev.txt
+    pipenv install --dev --ignore-pipfile
 
 Then do the following commands:
 
-    python manage.py makemigrations
-    python manage.py migrate
+    pipenv run python manage.py makemigrations
+    pipenv run python manage.py migrate
 
 Run it:
 
-    python manage.py runserver
+    pipenv run python manage.py runserver
+    
+Or if you prefer:
+
+    docker-compose up
 
 ## Tests
 
@@ -35,7 +36,7 @@ I did some integration tests to see if [Grafene Testing Tools](https://docs.grap
 
 Execute the following to test everything:
 
-    python -m pytest 
+    pipenv run pytest 
 
 Useful links:
 
