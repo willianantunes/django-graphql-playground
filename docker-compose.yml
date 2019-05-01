@@ -22,10 +22,10 @@ services:
     mem_limit: 256mb
     command:
       [
-        "scripts/wait-for-it.sh",
+        "./wait-for-it.sh",
         "db:5432",
         "-t",
         "20",
         "--",
-        "scripts/start.sh",
+        "./start.sh",
       ]
