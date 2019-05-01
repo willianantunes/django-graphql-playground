@@ -8,6 +8,21 @@
 
 An honest place to play with this fantastic framework with GraphQL with help of [Graphene](https://github.com/graphql-python/graphene).
 
+## Run NOW with Docker
+
+Simply execute:
+
+    docker run -itd --name django-graphql-playground \
+    -p 8000:80 \
+    willianantunes/django-graphql-playground \
+    /bin/bash /app/start.sh
+
+Access on your browser: http://localhost:8000/admin/
+
+See the logs:
+
+    docker logs -f django-graphql-playground
+
 ## Preparing your dev environment
 
 This project uses `pipenv`, so you must have it (see how [here](https://pipenv.readthedocs.io/en/latest/#install-pipenv-today)). [It is the recommended tool to work with dependency management by python.org](https://packaging.python.org/guides/tool-recommendations/).
