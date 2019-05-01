@@ -1,6 +1,7 @@
 # Django GraphQL Playground
 
 [![Build status](https://dev.azure.com/willianantunes/python/_apis/build/status/Django%20GraphQL%20Playground)](https://dev.azure.com/willianantunes/python/_build/latest?definitionId=1)
+![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/willianantunes/python/1.svg?label=Azure%20Pipelines%20Coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/90f0ed08e9d576f7c602/maintainability)](https://codeclimate.com/github/willianantunes/django-graphql-playground/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/90f0ed08e9d576f7c602/test_coverage)](https://codeclimate.com/github/willianantunes/django-graphql-playground/test_coverage)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
