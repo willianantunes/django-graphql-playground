@@ -1,2 +1,9 @@
 exclude_patterns:
   - "**/migrations/*.py"
+  - "**/__init__.py"
+  - "/manage.py"
+  - "tests/"
+  - "scripts/"
+  - "**/tests/"
+  - ".tox/"
+  - ".venv/"
