@@ -30,7 +30,10 @@ def test_should_create_category(client):
     query_variables = {"data": {"name": "fake-category"}}
     executed = client.execute(query, variable_values=query_variables)
 
-    assert executed == {"data": {"createOrUpdateCategory": {"id": 1, "name": "fake-category", "errors": None}}}
+    created_category = executed["data"]["createOrUpdateCategory"]
+    assert created_category["id"] is not None
+    assert created_category["name"] == "fake-category"
+    assert created_category["errors"] is None
 
 
 @pytest.mark.django_db
@@ -59,9 +62,10 @@ def test_should_update_category(client):
     assert len(Category.objects.all()) == 1
     updated_fake_category = Category.objects.all().first()
     assert updated_fake_category.created_at.strftime(pattern) != updated_fake_category.updated_at.strftime(pattern)
-    assert executed == {
-        "data": {"createOrUpdateCategory": {"id": fake_category.id, "name": "fake-name-2", "errors": None}}
-    }
+    updated_category = executed["data"]["createOrUpdateCategory"]
+    assert updated_category["id"] is not None
+    assert updated_category["name"] == "fake-name-2"
+    assert updated_category["errors"] is None
 
 
 @pytest.mark.django_db
@@ -107,9 +111,9 @@ def test_should_create_ingredient(client):
     executed = client.execute(query, variable_values=query_variables)
 
     created_ingredient = executed["data"]["createOrUpdateIngredient"]
-    assert created_ingredient["id"] == 1
+    assert created_ingredient["id"] is not None
     assert created_ingredient["name"] == "fake_ingredient_name"
     assert created_ingredient["notes"] == "fake_ingredient_notes"
-    assert created_ingredient["category"] == "1"
+    assert created_ingredient["category"] is not None
     assert type(datetime.fromisoformat(created_ingredient["createdAt"])) is datetime
     assert created_ingredient["errors"] is None

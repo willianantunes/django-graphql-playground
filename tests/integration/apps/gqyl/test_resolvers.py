@@ -1,3 +1,5 @@
+import uuid
+
 import pytest
 from graphene.test import Client
 
@@ -42,11 +44,11 @@ def test_should_retrieve_all_categories(client, prepare_db):
 
     assert len(executed["data"]["allCategories"]) == 1
     created_category = executed["data"]["allCategories"][0]
-    assert created_category["id"] == "1"
+    assert created_category["id"] is not None
     assert created_category["name"] == "fake-category-name"
     assert len(created_category["ingredients"]) == 1
     created_ingredient = created_category["ingredients"][0]
-    assert created_ingredient["id"] == "1"
+    assert created_ingredient["id"] is not None
     assert created_ingredient["name"] == "fake_ingredient_name"
     assert created_ingredient["notes"] == "fake_ingredient_notes"
 
@@ -61,7 +63,7 @@ def test_should_retrieve_specific_category(client, prepare_db):
 
     query = f"""
         query {{
-          category(id: {fake_category.id}){{
+          category(id: "{str(fake_category.id)}"){{
             id
             name
             ingredients {{
@@ -91,7 +93,7 @@ def test_should_retrieve_specific_category(client, prepare_db):
     do_assert(executed["data"]["category"])
     query = f"""
         query {{
-          category(id: {fake_category.id}, name: "{fake_category.name}"){{
+          category(id: "{str(fake_category.id)}", name: "{fake_category.name}"){{
             id
             name
             ingredients {{
@@ -108,11 +110,11 @@ def test_should_retrieve_specific_category(client, prepare_db):
 
 @pytest.mark.django_db
 def test_should_retrieve_nothing_from_category(client, prepare_db):
-    fake_category_id = 9999
+    fake_category_id = uuid.uuid4()
 
     query = f"""
         query {{
-          category(id: {fake_category_id}){{
+          category(id: "{str(fake_category_id)}"){{
             id
             name
             ingredients {{
@@ -198,9 +200,9 @@ def test_should_retrieve_all_ingredients(client, prepare_db):
 
     assert len(executed["data"]["allIngredients"]) == 1
     created_ingredient = executed["data"]["allIngredients"][0]
-    assert created_ingredient["id"] == "1"
+    assert created_ingredient["id"] is not None
     assert created_ingredient["name"] == "fake_ingredient_name"
     assert created_ingredient["notes"] == "fake_ingredient_notes"
     created_category = created_ingredient["category"]
-    assert created_category["id"] == "1"
+    assert created_category["id"] is not None
     assert created_category["name"] == "fake-category-name"

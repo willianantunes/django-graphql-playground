@@ -1,10 +1,20 @@
+import uuid
+
 from django.db import models
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+class StandardModelMixin(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+        ordering = ["-created_at", "-updated_at"]
+
+
+class Category(StandardModelMixin):
+    name = models.CharField(max_length=100, unique=True)
     start_at = models.DateField(null=True, blank=True)
     end_at = models.DateField(null=True, blank=True)
 
@@ -12,12 +22,10 @@ class Category(models.Model):
         return self.name
 
 
-class Ingredient(models.Model):
+class Ingredient(StandardModelMixin):
     name = models.CharField(max_length=100)
-    notes = models.TextField()
+    notes = models.TextField(null=True, blank=True)
     category = models.ForeignKey(Category, related_name="ingredients", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name

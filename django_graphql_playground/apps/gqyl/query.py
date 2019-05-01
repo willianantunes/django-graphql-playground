@@ -8,7 +8,7 @@ from django_graphql_playground.apps.gqyl.objects_types import IngredientType
 
 class QueryDefinition(object):
     all_categories = graphene.List(CategoryType)
-    category = graphene.Field(CategoryType, id=graphene.Int(), name=graphene.String())
+    category = graphene.Field(CategoryType, id=graphene.UUID(), name=graphene.String())
     all_categories_configured_between_the_date = graphene.List(CategoryType, date=graphene.Date(required=True))
     all_ingredients = graphene.List(IngredientType)
 

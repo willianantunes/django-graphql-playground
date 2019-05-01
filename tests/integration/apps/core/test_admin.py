@@ -10,12 +10,11 @@ def test_category_page_should_have_properly_configured_columns(admin_client):
     response = admin_client.get("/admin/core/category/")
     selector = Selector(text=str(response.content))
 
-    list_of_columns = [None, "Name", "Created at", "Updated at", "Start at", "End at", None]
+    list_of_columns = [None, "Created at", "Updated at", "Name", "Start at", "End at", None]
 
     for index, value in enumerate(list_of_columns, 1):
         assert value == selector.css(f"#result_list > thead > tr th:nth-child({index}) div.text a::text").get()
 
-    assert fake_category_name == selector.css("#result_list > tbody > tr > th > a::text").get()
     assert "1 category" == selector.css("#changelist-form > p::text").get().strip("\\n")
 
 
