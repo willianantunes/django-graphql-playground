@@ -1,9 +1,9 @@
 import graphene
 
-from app.graphql.objects_types import CategoryType
-from app.graphql.objects_types import IngredientType
-from app.models import Category
-from app.models import Ingredient
+from django_graphql_playground.apps.core.models import Category
+from django_graphql_playground.apps.core.models import Ingredient
+from django_graphql_playground.apps.gqyl.objects_types import CategoryType
+from django_graphql_playground.apps.gqyl.objects_types import IngredientType
 
 
 class QueryDefinition(object):

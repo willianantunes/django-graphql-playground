@@ -5,7 +5,7 @@ from django.contrib.auth.signals import user_logged_out
 from django.contrib.auth.signals import user_login_failed
 from django.dispatch import receiver
 
-from app.support.utils import retrieve_ip_address
+from django_graphql_playground.support.utils import retrieve_ip_address
 
 logger = logging.getLogger(__name__)
 

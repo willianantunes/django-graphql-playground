@@ -1,14 +1,13 @@
 from django.contrib import admin
 
-from app.models import Category
-from app.models import Ingredient
-from app.support.admin_services import CustomModelAdminMixin
-from app.support.admin_services import ExportCsvMixin
+from django_graphql_playground.apps.core.models import Category
+from django_graphql_playground.apps.core.models import Ingredient
+from django_graphql_playground.support.django_helpers import CustomModelAdminMixin
+from django_graphql_playground.support.django_helpers import ExportCsvMixin
 
 
 @admin.register(Category)
 class CategoryAdmin(CustomModelAdminMixin, admin.ModelAdmin, ExportCsvMixin):
-    list_filter = ["created_at", "updated_at"]
     actions = ["export_as_csv"]
 
 

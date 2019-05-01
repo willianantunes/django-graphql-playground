@@ -1,9 +1,9 @@
 import pytest
 from graphene.test import Client
 
-from app.graphql.schema import schema
-from app.models import Category
-from app.models import Ingredient
+from django_graphql_playground.apps.core.models import Category
+from django_graphql_playground.apps.core.models import Ingredient
+from django_graphql_playground.apps.gqyl.schema import schema
 
 
 @pytest.fixture

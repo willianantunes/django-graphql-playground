@@ -36,9 +36,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "app",
+    "django_graphql_playground.apps.core",
     "rest_framework",
+    "django_graphql_playground.apps.drf",
     "graphene_django",
+    "django_graphql_playground.apps.gqyl",
     "rest_framework.authtoken",
 ]
 
@@ -81,7 +83,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-GRAPHENE = {"SCHEMA": "django_graphql_playground.api.graphql.schema.schema"}
+GRAPHENE = {"SCHEMA": "django_graphql_playground.apps.gqyl.schema.schema"}
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -137,7 +139,7 @@ LOGGING = {
     "formatters": {"console": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"}},
     "loggers": {
         "": {"level": os.getenv("ROOT_LOG_LEVEL", "INFO"), "handlers": ["console"]},
-        "app": {"level": os.getenv("PROJECT_LOG_LEVEL", "INFO"), "handlers": ["console"], "propagate": False},
+        "apps": {"level": os.getenv("PROJECT_LOG_LEVEL", "INFO"), "handlers": ["console"], "propagate": False},
         "django": {"level": os.getenv("DJANGO_LOG_LEVEL", "INFO"), "handlers": ["console"]},
         "django.db.backends": {"level": os.getenv("DJANGO_DB_BACKENDS_LOG_LEVEL", "INFO"), "handlers": ["console"]},
     },

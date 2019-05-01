@@ -1,8 +1,8 @@
 import pytest
 from django.db import IntegrityError
 
-from app.models import Category
-from app.models import Ingredient
+from django_graphql_playground.apps.core.models import Category
+from django_graphql_playground.apps.core.models import Ingredient
 
 
 @pytest.mark.django_db
@@ -37,4 +37,4 @@ def test_should_throw_constraint_error_when_category_id_is_invalid():
     with pytest.raises(IntegrityError) as exception:
         Ingredient.objects.create(name=fake_ingredient_name, notes=fake_ingredient_notes)
 
-    assert str(exception.value) == "NOT NULL constraint failed: app_ingredient.category_id"
+    assert str(exception.value) == "NOT NULL constraint failed: core_ingredient.category_id"

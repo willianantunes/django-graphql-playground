@@ -1,3 +1,9 @@
+from datetime import date
+from datetime import timedelta
+
+from dateutil import relativedelta
+
+
 def retrieve_ip_address(request):
     """
     Makes the best attempt to get the client's real IP or return the loopback
@@ -30,3 +36,28 @@ def retrieve_ip_address(request):
     if not ip_address:
         ip_address = "127.0.0.1"
     return ip_address
+
+
+def some_day_from_next_month():
+    return date.today() + relativedelta.relativedelta(months=1)
+
+
+def get_first_day(dt, delta_years=0, delta_months=0):
+    y, m = dt.year + delta_years, dt.month + delta_months
+    a, m = divmod(m - 1, 12)
+    return date(y + a, m + 1, 1)
+
+
+def get_last_day(dt):
+    return get_first_day(dt, 0, 1) + timedelta(-1)
+
+
+def option(function):
+    def wrapper(*args, **kwargs):
+        if len(args) > 0 and args[0] is not None:
+            try:
+                return function(*args, **kwargs)
+            except:
+                return None
+
+    return wrapper

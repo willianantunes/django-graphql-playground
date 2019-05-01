@@ -13,8 +13,8 @@ from requests.auth import HTTPBasicAuth
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
-from app.models import Category
-from app.models import Ingredient
+from django_graphql_playground.apps.core.models import Category
+from django_graphql_playground.apps.core.models import Ingredient
 
 
 @pytest.fixture

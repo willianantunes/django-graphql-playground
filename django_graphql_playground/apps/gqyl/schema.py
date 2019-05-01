@@ -1,7 +1,7 @@
 import graphene
 
-from app.graphql.mutations import Mutations
-from app.graphql.query import QueryDefinition
+from django_graphql_playground.apps.gqyl.mutations import Mutations
+from django_graphql_playground.apps.gqyl.query import QueryDefinition
 
 
 class Query(QueryDefinition, graphene.ObjectType):

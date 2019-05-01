@@ -1,7 +1,7 @@
 from graphene_django.types import DjangoObjectType
 
-from app.models import Category
-from app.models import Ingredient
+from django_graphql_playground.apps.core.models import Category
+from django_graphql_playground.apps.core.models import Ingredient
 
 
 class CategoryType(DjangoObjectType):
