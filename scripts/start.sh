@@ -1,21 +1,7 @@
 #!/usr/bin/env bash
 python manage.py makemigrations
 python manage.py migrate
-
-echo "Querying ADMIN table..."
-count=$(echo "from django.contrib.auth import get_user_model;\
-User = get_user_model();\
-print(len(User.objects.all()))" | python manage.py shell)
-
-echo "Admins configured: ${count}"
-
-if [ ${count} -eq 0 ] ; then
-    echo "Creating temporary ADMIN user..."
-    echo "from django.contrib.auth import get_user_model;\
-    User = get_user_model();\
-    User.objects.create_superuser('admin', None, 'admin')" | python manage.py shell
-fi
-
+python manage.py seed_db --create-super-user
 
 if [[ ${DJANGO_BIND_ADDRESS+x} ]] && [[ ${DJANGO_BIND_PORT+x} ]];
 then
