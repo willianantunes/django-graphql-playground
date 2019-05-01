@@ -23,16 +23,24 @@ class Command(BaseCommand):
             default="Asd123!.",
             help="Super user password. Defaults to: Asd123!. ",
         )
+        parser.add_argument(
+            "--hide-super-user-password", action="store_true", dest="hide_password", help="Hide admin password output"
+        )
 
     def handle(self, *args, **options):
         self.create_super_user = options["create_super_user"]
         self.admin_username = options["admin_username"].strip()
         self.admin_password = options["admin_password"].strip()
+        self.hide_password = options["hide_password"]
 
         if self.create_super_user == True:
             user_model = get_user_model()
             if user_model.objects.filter(username=self.admin_username).count() == 0:
-                self.stdout.write(f"Creating with username {self.admin_username} and password {self.admin_password}")
+                log_output = f"Creating ADMIN username {self.admin_username}"
+                if not self.hide_password:
+                    self.stdout.write(f"{log_output} and password {self.admin_password}")
+                else:
+                    self.stdout.write(log_output)
                 get_user_model().objects.create_superuser(self.admin_username, None, self.admin_password)
             else:
                 raise CommandError(f"Super user {self.admin_username} already exists")

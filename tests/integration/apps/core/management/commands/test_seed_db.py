@@ -11,7 +11,7 @@ from django_graphql_playground.apps.core.models import Ingredient
 
 
 @pytest.mark.django_db
-def test_should_seed_db_without_creating_super_user():
+def test_should_seed_db_without_super_user():
     out = StringIO()
 
     call_command("seed_db", stdout=out)
@@ -22,15 +22,27 @@ def test_should_seed_db_without_creating_super_user():
 
 
 @pytest.mark.django_db
-def test_should_seed_db_with_creating_super_user_given_extra_option():
+def test_should_seed_db_with_super_user_given_extra_option():
     out = StringIO()
 
     call_command("seed_db", "--create-super-user", stdout=out)
 
     assert (
         out.getvalue()
-        == "Creating with username admin and password Asd123!.\nCreating categories\nCreating ingredients\n"
+        == "Creating ADMIN username admin and password Asd123!.\nCreating categories\nCreating ingredients\n"
     )
+    assert User.objects.filter(username="admin").count() == 1
+    assert Category.objects.all().count() == 2
+    assert Ingredient.objects.all().count() == 4
+
+
+@pytest.mark.django_db
+def test_should_seed_db_with_super_user_hidding_password_given_extra_option():
+    out = StringIO()
+
+    call_command("seed_db", "--create-super-user", "--hide-super-user-password", stdout=out)
+
+    assert out.getvalue() == "Creating ADMIN username admin\nCreating categories\nCreating ingredients\n"
     assert User.objects.filter(username="admin").count() == 1
     assert Category.objects.all().count() == 2
     assert Ingredient.objects.all().count() == 4
@@ -44,7 +56,7 @@ def test_should_seed_db_with_custom_super_user_given_extra_options():
     call_command("seed_db", "--create-super-user", f"-u {custom_username}", stdout=out)
 
     assert (
-        out.getvalue() == f"Creating with username {custom_username} and password Asd123!.\n"
+        out.getvalue() == f"Creating ADMIN username {custom_username} and password Asd123!.\n"
         f"Creating categories\n"
         f"Creating ingredients\n"
     )
