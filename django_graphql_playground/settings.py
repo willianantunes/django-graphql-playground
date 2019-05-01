@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_graphql_playground.apps.core",
     "rest_framework",
+    "django_filters",
     "django_graphql_playground.apps.drf",
     "graphene_django",
     "django_graphql_playground.apps.gqyl",
