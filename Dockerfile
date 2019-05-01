@@ -4,5 +4,6 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install pipenv && \
+RUN python -m pip install --upgrade pip && \
+    pip install pipenv && \
     pipenv install --system --deploy --ignore-pipfile

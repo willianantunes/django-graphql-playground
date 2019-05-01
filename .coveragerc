@@ -1,0 +1,11 @@
+[run]
+omit =
+    .venv/*
+    .tox/*
+    scripts/*
+    tests/*
+    */tests/*
+    */migrations/*
+
+[report]
+show_missing = True
