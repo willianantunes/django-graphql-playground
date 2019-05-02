@@ -74,3 +74,15 @@ def test_should_throw_exception_if_super_user_exists():
         call_command("seed_db", "--create-super-user", f"-u {custom_username}")
 
     assert e.value.args[0] == "Super user xpto already exists"
+
+
+@pytest.mark.django_db
+def test_should_only_create_super_user_given_extra_options():
+    out = StringIO()
+
+    call_command("seed_db", "--create-super-user", "--only-super-user", stdout=out)
+
+    assert out.getvalue() == "Creating ADMIN username admin and password Asd123!.\n"
+    assert User.objects.filter(username="admin").count() == 1
+    assert Category.objects.all().count() == 0
+    assert Ingredient.objects.all().count() == 0
