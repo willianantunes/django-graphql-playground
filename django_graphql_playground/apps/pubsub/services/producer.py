@@ -5,6 +5,7 @@ from contextlib import contextmanager
 from typing import Dict
 
 import stomp
+from django.core.serializers.json import DjangoJSONEncoder
 from stomp.connect import StompConnection11
 
 logger = logging.getLogger(__name__)
@@ -31,7 +32,7 @@ class _Publisher:
         if hasattr(self, "_tmp_transaction_id"):
             self._connection.send(
                 self._destination_name,
-                body=json.dumps(body),
+                body=json.dumps(body, cls=DjangoJSONEncoder),
                 content_type=self._default_content_type,
                 headers=headers,
                 transaction=self._tmp_transaction_id,
