@@ -50,7 +50,7 @@ I did some integration tests to see if [Grafene Testing Tools](https://docs.grap
 
 Execute the following to test everything:
 
-    pipenv run pytest 
+    PIPENV_DONT_LOAD_ENV=1 pipenv run pytest --ignore-glob='**/pubsub/**/*.py' 
 
 Useful links:
 
