@@ -33,6 +33,7 @@ gql = "*"
 ### Libs and other things
 requests = "*"
 python-dateutil = "*"
+stomp-py = "*"
 
 [requires]
 python_version = "3.7"
