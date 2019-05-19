@@ -1,27 +1,33 @@
 version: "2.4"
 services:
+  broker:
+    image: rmohr/activemq:latest
+    ports:
+      - 8161:8161
   db:
     image: postgres:10.1-alpine
+    ports:
+      - 5432:5432
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: DockerfileTest
+    env_file: .env
     volumes:
       - .:/app
     depends_on:
       - db
-    environment:
-      - DJANGO_BIND_ADDRESS=0.0.0.0
-      - DJANGO_BIND_PORT=80
-      - DJANGO_DEBUG=True
-      - DB_ENGINE=django.db.backends.postgresql
-      - DB_DATABASE=postgres
-      - DB_USER=postgres
-      - DB_HOST=db
-      - DB_PORT=5432
+      - broker
     ports:
-      - "8000:80"
+      - "8000:${DJANGO_BIND_PORT}"
     mem_limit: 256mb
     command:
       [
+        "./wait-for-it.sh",
+        "broker:8161",
+        "-t",
+        "120",
+        "--",
         "./wait-for-it.sh",
         "db:5432",
         "-t",
