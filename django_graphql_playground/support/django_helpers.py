@@ -1,6 +1,8 @@
 import csv
 from enum import Enum
 
+from django.db import connection
+from django.db import connections
 from django.http import HttpResponse
 
 
@@ -68,3 +70,17 @@ class ChoiceEnum(Enum):
         for name, v in cls.choices():
             if value == v:
                 return name
+
+
+def make_sure_database_is_usable():
+    """
+    https://github.com/speedocjx/db_platform/blob/e626a12edf8aceb299686fe19377cd6ff331b530/myapp/include/inception.py#L14
+    """
+    if connection.connection and not connection.is_usable():
+        """
+        Database might be lazily connected to in django.
+        When connection.connection is None means you have not connected to mysql before.        
+        Destroy the default mysql connection after this line, 
+        when you use ORM methods django will reconnect to the default database
+        """
+        del connections._connections.default
