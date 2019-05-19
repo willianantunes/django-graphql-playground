@@ -11,6 +11,7 @@ from django_graphql_playground.apps.pubsub.services import producer
 from django_graphql_playground.settings import STOMP_SERVER_HOST
 from django_graphql_playground.settings import STOMP_SERVER_PORT
 from django_graphql_playground.settings import TARGET_DESTINATION
+from django_graphql_playground.support.django_helpers import make_sure_database_is_usable
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,8 @@ class Command(BaseCommand):
     help = "Start App producer"
 
     def handle(self, *args, **options):
+        make_sure_database_is_usable()
+
         logger.info("Getting all categories to publish them...")
         categories = Category.objects.filter(end_at__lt=timezone.now(), distributed_at__isnull=True).values()
 
@@ -36,3 +39,5 @@ class Command(BaseCommand):
                 for category in categories:
                     capitol_publisher.send(category, standard_header)
                 categories.update(distributed_at=timezone.now())
+
+        logger.info(f"Finished!")

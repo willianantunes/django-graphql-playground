@@ -6,9 +6,11 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Callable
 from typing import Dict
+from typing import Optional
 
 import stomp
 from stomp.connect import StompConnection11
+from stomp.listener import TestListener
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +49,7 @@ class _Listener(stomp.ConnectionListener):
         self._callback = callback
         self._subscription_id = str(uuid.uuid4())
         self._listener_id = str(uuid.uuid4())
+        self.test_listener: Optional[TestListener] = None
 
     def on_message(self, headers, message):
         message_id = headers["message-id"]
@@ -66,17 +69,24 @@ class _Listener(stomp.ConnectionListener):
     def is_open(self):
         return self._connection.is_connected()
 
-    def start(self):
+    def start(self, block=True, testing=False):
         logger.info(f"Starting listener with name: {self._listener_id}")
         logger.info(f"Subscribe/Listener auto-generated ID: {self._subscription_id}")
 
-        self._connection.set_listener(self._listener_id, self)
+        if testing:
+            self.test_listener = TestListener()
+            self._connection.set_listener(self._listener_id, self.test_listener)
+        else:
+            self._connection.set_listener(self._listener_id, TestListener() if testing else self)
+
         self._connection.start()
         self._connection.connect(**self._connection_configuration)
         self._connection.subscribe(id=self._subscription_id, **self._subscription_configuration)
-        while True:
-            # https://stackoverflow.com/a/529052/3899136
-            time.sleep(1)
+
+        if block:
+            while True:
+                # https://stackoverflow.com/a/529052/3899136
+                time.sleep(1)
 
     def close(self):
         self._connection.disconnect()

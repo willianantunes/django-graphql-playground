@@ -39,7 +39,10 @@ class _Publisher:
             )
         else:
             self._connection.send(
-                self._destination_name, body=json.dumps(body), content_type=self._default_content_type, headers=headers
+                self._destination_name,
+                body=json.dumps(body, cls=DjangoJSONEncoder),
+                content_type=self._default_content_type,
+                headers=headers,
             )
 
 
