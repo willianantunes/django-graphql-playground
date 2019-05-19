@@ -1,9 +1,7 @@
 import os
 from enum import Enum
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -43,6 +41,7 @@ INSTALLED_APPS = [
     "graphene_django",
     "django_graphql_playground.apps.gqyl",
     "rest_framework.authtoken",
+    "django_graphql_playground.apps.pubsub",
 ]
 
 MIDDLEWARE = [
@@ -150,3 +149,8 @@ LOGGING = {
 
 Enviroments = Enum("Level", "DEV QA HOM STAGING PROD")
 ENVIRONMENT = os.getenv("ENVIRONMENT", Enviroments.DEV.name)
+
+STOMP_SERVER_HOST = os.getenv("STOMP_SERVER_HOST")
+STOMP_SERVER_PORT = os.getenv("STOMP_SERVER_PORT")
+MY_DESTINATION = os.getenv("MY_DESTINATION")
+TARGET_DESTINATION = os.getenv("TARGET_DESTINATION")
