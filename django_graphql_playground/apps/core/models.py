@@ -17,6 +17,7 @@ class Category(StandardModelMixin):
     name = models.CharField(max_length=100, unique=True)
     start_at = models.DateField(null=True, blank=True)
     end_at = models.DateField(null=True, blank=True)
+    distributed_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.name
