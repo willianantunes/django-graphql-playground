@@ -4,6 +4,7 @@ services:
     image: rmohr/activemq:latest
     ports:
       - 8161:8161
+      - 61613:61613
   db:
     image: postgres:10.1-alpine
     ports:
@@ -24,7 +25,7 @@ services:
     command:
       [
         "./wait-for-it.sh",
-        "broker:8161",
+        "broker:61613",
         "-t",
         "120",
         "--",
