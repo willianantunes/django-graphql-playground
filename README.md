@@ -56,3 +56,7 @@ Useful links:
 
 - https://docs.graphene-python.org/en/latest/testing/#testing-tools
 - https://pytest-django.readthedocs.io/en/latest/helpers.html
+
+## Issues
+
+- [Pipeline for Django fails with: No module named '_sqlite3'](https://developercommunity.visualstudio.com/content/problem/574733/pipeline-for-django-fails-with-no-module-named-sql.html)
