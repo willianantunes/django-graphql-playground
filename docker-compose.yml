@@ -36,3 +36,27 @@ services:
         "--",
         "./start.sh",
       ]
+  integration-tests:
+    build:
+      context: .
+      dockerfile: DockerfileTest
+    env_file: .env
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - broker
+    command:
+      [
+        "./wait-for-it.sh",
+        "broker:61613",
+        "-t",
+        "120",
+        "--",
+        "./wait-for-it.sh",
+        "db:5432",
+        "-t",
+        "20",
+        "--",
+        "tox",
+      ]
