@@ -1,5 +1,6 @@
 import json
 import logging
+import ssl
 import uuid
 from contextlib import contextmanager
 from typing import Dict
@@ -16,6 +17,7 @@ class _Publisher:
         self._connection_configuration = connection_configuration
         self._connection = connection
         self._destination_name = destination_name
+        # TODO: Make Content-Type dynamic
         self._default_content_type = "application/json;charset=utf-8"
 
     def is_open(self):
@@ -24,9 +26,11 @@ class _Publisher:
     def start(self):
         self._connection.start()
         self._connection.connect(**self._connection_configuration)
+        logger.info("Connected")
 
     def close(self):
         self._connection.disconnect()
+        logger.info("Disconnected")
 
     def send(self, body, headers=None):
         if hasattr(self, "_tmp_transaction_id"):
@@ -38,6 +42,9 @@ class _Publisher:
                 transaction=self._tmp_transaction_id,
             )
         else:
+            if not self.is_open():
+                logger.info("It is not open. Starting...")
+                self.start()
             self._connection.send(
                 self._destination_name,
                 body=json.dumps(body, cls=DjangoJSONEncoder),
@@ -47,11 +54,19 @@ class _Publisher:
 
 
 def build_publisher(destination_name, **connection_params) -> _Publisher:
-    logger.debug("Building publisher for %s...", destination_name)
+    logger.info("Building publisher...")
     hosts = [(connection_params.get("host"), connection_params.get("port"))]
+    use_ssl = connection_params.get("use_ssl", False)
+    ssl_version = connection_params.get("ssl_version", ssl.PROTOCOL_TLS)
+    logger.info(f"Use SSL? {use_ssl}. Version: {ssl_version}")
     client_id = connection_params.get("client_id", uuid.uuid4())
-    connection_configuration = {"wait": True, "headers": {"client-id": f"{client_id}-publisher"}}
-    conn = stomp.Connection(hosts)
+    connection_configuration = {
+        "username": connection_params.get("username"),
+        "passcode": connection_params.get("password"),
+        "wait": True,
+        "headers": {"client-id": f"{client_id}-publisher"},
+    }
+    conn = stomp.Connection(hosts, ssl_version=ssl_version, use_ssl=use_ssl)
     publisher = _Publisher(conn, connection_configuration, destination_name)
     return publisher
 
@@ -62,7 +77,8 @@ def auto_open_close_connection(publisher: _Publisher):
         publisher.start()
         yield
     finally:
-        publisher.close()
+        if publisher.is_open():
+            publisher.close()
 
 
 @contextmanager
@@ -73,9 +89,9 @@ def do_inside_transaction(publisher: _Publisher):
             setattr(publisher, "_tmp_transaction_id", transaction_id)
             yield
             publisher._connection.commit(getattr(publisher, "_tmp_transaction_id"))
-        except:
-            logger.exception("Could not conclude transaction properly")
-            publisher._connection.abort(getattr(publisher, "_tmp_transaction_id"))
         finally:
-            if hasattr(publisher, "_tmp_transaction_id"):
-                delattr(publisher, "_tmp_transaction_id")
+            try:
+                publisher._connection.abort(getattr(publisher, "_tmp_transaction_id"))
+            finally:
+                if hasattr(publisher, "_tmp_transaction_id"):
+                    delattr(publisher, "_tmp_transaction_id")

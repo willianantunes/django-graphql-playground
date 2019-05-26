@@ -1,5 +1,6 @@
 import json
 import logging
+import ssl
 import time
 import uuid
 from dataclasses import dataclass
@@ -85,6 +86,13 @@ class _Listener(stomp.ConnectionListener):
 
         if block:
             while True:
+                if not self.is_open():
+                    logger.info("It is not open. Starting...")
+                    self.start(block=False)
+                time.sleep(1)
+
+        if block:
+            while True:
                 # https://stackoverflow.com/a/529052/3899136
                 time.sleep(1)
 
@@ -93,12 +101,19 @@ class _Listener(stomp.ConnectionListener):
 
 
 def build_listener(destination_name, callback, ack_type=Acknowledgements.CLIENT, **connection_params) -> _Listener:
-    logger.debug("Building listener for %s...", destination_name)
+    logger.info("Building listener...")
     hosts = [(connection_params.get("host"), connection_params.get("port"))]
-    # http://stomp.github.io/stomp-specification-1.2.html#Heart-beating
-    conn = stomp.Connection(hosts, heartbeats=(10000, 10000))
+    use_ssl = connection_params.get("use_ssl", False)
+    ssl_version = connection_params.get("ssl_version", ssl.PROTOCOL_TLS)
+    logger.info(f"Use SSL? {use_ssl}. Version: {ssl_version}")
+    conn = stomp.Connection(hosts, ssl_version=ssl_version, use_ssl=use_ssl)
     client_id = connection_params.get("client_id", uuid.uuid4())
     subscription_configuration = {"destination": destination_name, "ack": ack_type.value}
-    connection_configuration = {"wait": True, "headers": {"client-id": f"{client_id}-listener"}}
+    connection_configuration = {
+        "username": connection_params.get("username"),
+        "passcode": connection_params.get("password"),
+        "wait": True,
+        "headers": {"client-id": f"{client_id}-listener"},
+    }
     listener = _Listener(conn, callback, subscription_configuration, connection_configuration)
     return listener
