@@ -1,6 +1,8 @@
 import os
 from enum import Enum
 
+from django_graphql_playground.support.utils import eval_env_as_boolean
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -10,17 +12,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "7l(jg#_1_zl6ws%44mgy(nvkmb^evm9)$*7tt320w5(%qa)5(h"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.getenv("DJANGO_DEBUG", True)).lower() in (
-    "true",
-    "1",
-    "t",
-    "y",
-    "yes",
-    "yeah",
-    "yup",
-    "certainly",
-    "uh-huh",
-)
+DEBUG = eval_env_as_boolean("DJANGO_DEBUG", True)
+USE_STATIC_FILE_HANDLER_FROM_WSGI = eval_env_as_boolean("USE_STATIC_FILE_HANDLER_FROM_WSGI", True)
 
 ALLOWED_HOSTS = ["*"]
 
@@ -75,7 +68,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "django_graphql_playground.wsgi.application"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.BasicAuthentication",
@@ -146,9 +139,6 @@ LOGGING = {
         "django.db.backends": {"level": os.getenv("DJANGO_DB_BACKENDS_LOG_LEVEL", "INFO"), "handlers": ["console"]},
     },
 }
-
-Enviroments = Enum("Level", "DEV QA HOM STAGING PROD")
-ENVIRONMENT = os.getenv("ENVIRONMENT", Enviroments.DEV.name)
 
 STOMP_SERVER_HOST = os.getenv("STOMP_SERVER_HOST")
 STOMP_SERVER_PORT = os.getenv("STOMP_SERVER_PORT")
