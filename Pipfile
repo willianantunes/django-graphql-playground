@@ -34,6 +34,7 @@ gql = "*"
 requests = "*"
 python-dateutil = "*"
 stomp-py = "*"
+tenacity = "*"
 
 [requires]
 python_version = "3.7"

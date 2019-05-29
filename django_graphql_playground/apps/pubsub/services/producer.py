@@ -3,11 +3,15 @@ import logging
 import ssl
 import uuid
 from contextlib import contextmanager
+from typing import Callable
 from typing import Dict
 
 import stomp
+import tenacity
 from django.core.serializers.json import DjangoJSONEncoder
 from stomp.connect import StompConnection11
+
+from django_graphql_playground.support.decorators import slow_down
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +27,7 @@ class _Publisher:
     def is_open(self):
         return self._connection.is_connected()
 
+    @slow_down
     def start(self):
         self._connection.start()
         self._connection.connect(**self._connection_configuration)
@@ -32,25 +37,32 @@ class _Publisher:
         self._connection.disconnect()
         logger.info("Disconnected")
 
-    def send(self, body, headers=None):
-        if hasattr(self, "_tmp_transaction_id"):
-            self._connection.send(
-                self._destination_name,
-                body=json.dumps(body, cls=DjangoJSONEncoder),
-                content_type=self._default_content_type,
-                headers=headers,
-                transaction=self._tmp_transaction_id,
-            )
-        else:
+    def send(self, body, headers=None, attempt=10):
+        send_params = {
+            "destination": self._destination_name,
+            "body": json.dumps(body, cls=DjangoJSONEncoder),
+            "headers": headers,
+            "content_type": self._default_content_type,
+            "transaction": getattr(self, "_tmp_transaction_id", None),
+        }
+        send_params = {k: v for k, v in send_params.items() if v is not None}
+
+        def _internal_send_logic():
             if not self.is_open():
                 logger.info("It is not open. Starting...")
                 self.start()
-            self._connection.send(
-                self._destination_name,
-                body=json.dumps(body, cls=DjangoJSONEncoder),
-                content_type=self._default_content_type,
-                headers=headers,
-            )
+            self._connection.send(**send_params)
+
+        self._retry_send(_internal_send_logic, attempt=attempt)
+
+    def _retry_send(self, function: Callable, attempt=10, *args, **kwargs):
+        retry_configuration = tenacity.Retrying(
+            stop=tenacity.stop_after_attempt(attempt),
+            wait=tenacity.wait_fixed(3) + tenacity.wait_random(0, 2),
+            after=tenacity.after_log(logger, logger.level) if logger else None,
+            reraise=True,
+        )
+        return retry_configuration(function, *args, **kwargs)
 
 
 def build_publisher(destination_name, **connection_params) -> _Publisher:
