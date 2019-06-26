@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from django_graphql_playground.apps.core.models import Category
 from django_graphql_playground.apps.core.models import Ingredient
 from django_graphql_playground.support.django_helpers import CustomModelAdminMixin
@@ -14,5 +13,4 @@ class CategoryAdmin(CustomModelAdminMixin, admin.ModelAdmin, ExportCsvMixin):
 @admin.register(Ingredient)
 class IngredientAdmin(CustomModelAdminMixin, admin.ModelAdmin, ExportCsvMixin):
     list_filter = ["category", "created_at", "updated_at"]
-    raw_id_fields = ["category"]
     actions = ["export_as_csv"]
