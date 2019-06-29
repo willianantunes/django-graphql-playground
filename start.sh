@@ -8,6 +8,6 @@ then
     echo "OK! Using custom PORT $PORT to set Django runserver command"
     python manage.py runserver 0.0.0.0:${PORT}
 else
-    echo "Using 0.0.0.0:80 as parameter for Django runserver command"
-    python manage.py runserver 0.0.0.0:80
+    echo "Using 0.0.0.0:8000 as parameter for Django runserver command"
+    python manage.py runserver 0.0.0.0:8000
 fi
