@@ -20,7 +20,7 @@ services:
       - db
       - broker
     ports:
-      - "8000:${DJANGO_BIND_PORT}"
+      - "8000:${PORT}"
     mem_limit: 256mb
     command:
       [
