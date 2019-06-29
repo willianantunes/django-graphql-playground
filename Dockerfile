@@ -1,5 +1,8 @@
 FROM python:3.7.3-slim-stretch
 
+# In order to have OUTPUT from Heroku
+RUN apt-get update && apt-get install curl -y
+
 RUN groupadd --system app-user && adduser --system --ingroup app-user app-user
 
 WORKDIR /app
