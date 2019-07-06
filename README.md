@@ -61,3 +61,4 @@ Useful links:
 ## Issues
 
 - [Pipeline for Django fails with: No module named '_sqlite3'](https://developercommunity.visualstudio.com/content/problem/574733/pipeline-for-django-fails-with-no-module-named-sql.html)
+- [GitHubInstallationTokenSignatureSecret](https://developercommunity.visualstudio.com/content/problem/564582/githubinstallationtokensignaturesecret-does-not-ex.html)
