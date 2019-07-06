@@ -27,6 +27,9 @@ drf-extensions = "*"
 graphene-django = "*"
 # Database driver
 psycopg2-binary = "*"
+### WSGI
+gunicorn = "*"
+gevent = "*"
 ### GraphQL clients
 graphqlclient = "*"
 gql = "*"

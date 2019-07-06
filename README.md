@@ -56,6 +56,7 @@ Useful links:
 
 - https://docs.graphene-python.org/en/latest/testing/#testing-tools
 - https://pytest-django.readthedocs.io/en/latest/helpers.html
+- https://gist.github.com/JamesMGreene/cdd0ac49f90c987e45ac
 
 ## Issues
 
