@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.management import CommandError
 from django.core.management import call_command
-
 from django_graphql_playground.apps.core.models import Category
 from django_graphql_playground.apps.core.models import Ingredient
 
@@ -66,14 +65,14 @@ def test_should_seed_db_with_custom_super_user_given_extra_options():
 
 
 @pytest.mark.django_db
-def test_should_throw_exception_if_super_user_exists():
+def test_should_inform_if_super_user_exists():
+    out = StringIO()
     custom_username = "xpto"
     get_user_model().objects.create_superuser(custom_username, None, "fake-password")
 
-    with pytest.raises(CommandError) as e:
-        call_command("seed_db", "--create-super-user", f"-u {custom_username}")
+    call_command("seed_db", "--create-super-user", f"-u {custom_username}", stdout=out)
 
-    assert e.value.args[0] == "Super user xpto already exists"
+    assert out.getvalue() == "Super user already exists\nCreating categories\nCreating ingredients\n"
 
 
 @pytest.mark.django_db

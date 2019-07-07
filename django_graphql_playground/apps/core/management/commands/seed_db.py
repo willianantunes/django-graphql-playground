@@ -1,7 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.core.management import BaseCommand
-from django.core.management import CommandError
-
 from django_graphql_playground.apps.core.models import Category
 from django_graphql_playground.apps.core.models import Ingredient
 
@@ -47,7 +45,7 @@ class Command(BaseCommand):
                     self.stdout.write(log_output)
                 get_user_model().objects.create_superuser(self.admin_username, None, self.admin_password)
             else:
-                raise CommandError(f"Super user {self.admin_username} already exists")
+                self.stdout.write(f"Super user already exists")
 
         if not self.only_super_user:
             if Category.objects.all().count() == 0:
