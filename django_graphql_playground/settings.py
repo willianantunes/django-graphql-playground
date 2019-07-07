@@ -2,8 +2,9 @@ import os
 from enum import Enum
 
 from django_graphql_playground.support.utils import eval_env_as_boolean
+from django_graphql_playground.support.utils import extract_db_properties_from_url
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -91,6 +92,23 @@ DATABASES = {
         "PASSWORD": os.environ.get("DB_PASSWORD"),
     }
 }
+
+# https://devcenter.heroku.com/changelog-items/438
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    properties = extract_db_properties_from_url(DATABASE_URL)
+    if properties.target == "postgres":
+        DATABASES["default"] = {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": properties.database_name,
+            "USER": properties.user,
+            "HOST": properties.hostname,
+            "PORT": properties.port,
+            "PASSWORD": properties.password,
+        }
+    else:
+        raise NotImplementedError(f"The following DB is not supported: {properties.target}")
 
 DATABASES["default"]["CONN_MAX_AGE"] = int(os.getenv("DB_CONN_MAX_AGE", 0))  # type: ignore
 

@@ -1,8 +1,43 @@
 import os
+import re
+from dataclasses import dataclass
 from datetime import date
 from datetime import timedelta
 
 from dateutil import relativedelta
+
+
+@dataclass(frozen=True)
+class _DatabaseProperties:
+    target: str
+    user: str
+    password: str
+    hostname: str
+    port: int
+    database_name: str
+
+
+_TARGET = 1
+_USERNAME = 2
+_PASSWORD = 3
+_HOSTNAME = 4
+_PORT = 5
+_DB_NAME = 6
+_pattern = r"^([a-z]*):\/\/([a-zA-Z0-9]*):([a-zA-Z0-9]*)@([a-zA-Z0-9.-]*):([0-9]{4,5})\/([a-zA-Z0-9]*)"
+_compiled_pattern = re.compile(_pattern, re.IGNORECASE)
+
+
+def extract_db_properties_from_url(connection_url):
+    matches = _compiled_pattern.search(connection_url)
+
+    return _DatabaseProperties(
+        matches.group(_TARGET),
+        matches.group(_USERNAME),
+        matches.group(_PASSWORD),
+        matches.group(_HOSTNAME),
+        matches.group(_PORT),
+        matches.group(_DB_NAME),
+    )
 
 
 def retrieve_ip_address(request):
