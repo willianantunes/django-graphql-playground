@@ -1,9 +1,13 @@
 # Django GraphQL Playground
 
-[![Build status](https://vsrm.dev.azure.com/willianantunes/_apis/public/Release/badge/5674f3e0-ef67-4b72-9d1b-1baf81d589c7/1/6)](https://vsrm.dev.azure.com/willianantunes/_apis/public/Release/badge/5674f3e0-ef67-4b72-9d1b-1baf81d589c7/1/6)
-[![Maintainability](https://api.codeclimate.com/v1/badges/90f0ed08e9d576f7c602/maintainability)](https://codeclimate.com/github/willianantunes/django-graphql-playground/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/90f0ed08e9d576f7c602/test_coverage)](https://codeclimate.com/github/willianantunes/django-graphql-playground/test_coverage)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=willianantunes_django-graphql-playground&metric=coverage)](https://sonarcloud.io/dashboard?id=willianantunes_django-graphql-playground)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=willianantunes_django-graphql-playground&metric=ncloc)](https://sonarcloud.io/dashboard?id=willianantunes_django-graphql-playground)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=willianantunes_django-graphql-playground&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=willianantunes_django-graphql-playground)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=willianantunes_django-graphql-playground&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=willianantunes_django-graphql-playground)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=willianantunes_django-graphql-playground&metric=security_rating)](https://sonarcloud.io/dashboard?id=willianantunes_django-graphql-playground)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=willianantunes_django-graphql-playground&metric=sqale_index)](https://sonarcloud.io/dashboard?id=willianantunes_django-graphql-playground)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=willianantunes_django-graphql-playground&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=willianantunes_django-graphql-playground)
 
 An honest place to play with this fantastic framework with GraphQL with help of [Graphene](https://github.com/graphql-python/graphene).
 
